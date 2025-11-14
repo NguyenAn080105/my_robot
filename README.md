@@ -60,11 +60,9 @@ This package follows standard ROS conventions:
     ```
 
 ## 🚀 Usage:
-    
     ```bash
     source ~/catkin_ws/devel/setup.bash
     ```
-
 ### 1. Launching Simulation (Gazebo + RViz)
 ```bash
 roslaunch my_robot sim.launch
