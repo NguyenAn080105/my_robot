@@ -43,9 +43,9 @@ This package follows standard ROS conventions:
     cd ~/catkin_ws/src/
     ```
 
-2.  Clone this repository:
+2.  Clone this repository (replace `YOUR_USERNAME`):
     ```bash
-    git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
+    git clone [https://github.com/YOUR_USERNAME/my_robot.git](https://github.com/YOUR_USERNAME/my_robot.git)
     ```
 
 3.  Navigate back to the workspace root and build:
@@ -54,15 +54,15 @@ This package follows standard ROS conventions:
     catkin_make
     ```
 
-4.  Source the workspace to update your environment (làm điều này ở mọi terminal mới):
-    ```bash
-    source devel/setup.bash
-    ```
-
-## 🚀 Usage:
+4.  Source the workspace to update your environment:
     ```bash
     source ~/catkin_ws/devel/setup.bash
     ```
-### 1. Launching Simulation (Gazebo + RViz)
+    *Note: You must do this in every new terminal you open.*
+
+## 🚀 Usage
+
+**Important:** Always remember to source your workspace in every new terminal before running ROS commands:
+
 ```bash
-roslaunch my_robot sim.launch
+source ~/catkin_ws/devel/setup.bash
