@@ -1,0 +1,19 @@
+<launch>
+  <arg name="channel_type" default="udp"/>
+  <arg name="udp_ip" default="192.168.11.2"/>
+  <arg name="udp_port" default="8089"/>
+  <arg name="frame_id" default="laser_frame"/>
+  <arg name="inverted" default="false"/>
+  <arg name="angle_compensate" default="true"/>
+  <arg name="scan_mode" default="Sensitivity"/>
+
+  <node pkg="rplidar_ros" type="rplidarNode" name="sllidar_node" output="screen">
+    <param name="channel_type" value="$(arg channel_type)"/>
+    <param name="tcp_ip" value="$(arg udp_ip)"/>
+    <param name="tcp_port" value="$(arg udp_port)"/>
+    <param name="frame_id" value="$(arg frame_id)"/>
+    <param name="inverted" value="$(arg inverted)"/>
+    <param name="angle_compensate" value="$(arg angle_compensate)"/>
+    <param name="scan_mode" value="$(arg scan_mode)"/>
+  </node>
+</launch>

@@ -1,0 +1,62 @@
+<launch>
+  <arg name="use_sim_time" default="true" />
+  <arg name="model" default="$(find my_robot)/urdf/sim.urdf"/>
+  <arg name="rviz_config" default="$(find my_robot)/config/config.rviz"/>
+  <arg name="world_file" default="$(find my_robot)/worlds/room2.world"/>
+
+  <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Load URDF/Xacro -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <node name="robot_state_publisher"
+        pkg="robot_state_publisher"
+        type="robot_state_publisher"/>
+
+  <node name="spawn_urdf"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        args="-param robot_description -urdf -model my_robot_model -x 0 -y 0 -z 0.1" />
+
+  <rosparam file="$(find my_robot)/config/diff_drive.yaml" command="load"/>
+  <rosparam file="$(find my_robot)/config/pid_gains.yaml" command="load" />
+  
+  <!-- SPAWN CONTROLLER -->
+  <node name="controller_spawner"
+        pkg="controller_manager"
+        type="spawner"
+        respawn="false"
+        output="screen"
+        args="diff_drive_controller joint_state_controller"/>
+
+  <!-- TELEOP >
+  <node name="teleop_twist_keyboard" 
+        pkg="teleop_twist_keyboard" 
+        type="teleop_twist_keyboard.py" 
+        output="screen">
+    <remap from="cmd_vel" to="/diff_drive_controller/cmd_vel"/>
+  </node-->
+
+  <node name="rviz"
+        pkg="rviz"
+        type="rviz"
+        args="-d $(arg rviz_config)" />
+
+  <!-- SLAM -->
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+    <param name="base_frame" value="base_footprint"/>
+    <param name="odom_frame" value="odom"/>
+    <param name="map_frame" value="map"/>
+    <param name="map_update_interval" value="5.0"/>
+  </node>
+</launch>

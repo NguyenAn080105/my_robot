@@ -1,0 +1,66 @@
+<launch>
+  <arg name="use_sim_time" default="true" />
+  <arg name="model" default="$(find my_robot)/urdf/sim1.urdf"/>
+  <arg name="rviz_config" default="$(find my_robot)/config/config.rviz"/>
+  <arg name="world_file" default="$(find my_robot)/worlds/room2.world"/>
+  <arg name="map_file" default="$(find my_robot)/maps/my_map.yaml"/>
+
+  <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+  <!-- Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Load URDF -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model my_robot_model -x 0 -y 0 -z 0.1" />
+
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" required="true"/>
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl">
+    <param name="odom_frame_id" value="odom"/>
+    <param name="base_frame_id" value="base_footprint"/>
+    <param name="global_frame_id" value="map"/>
+    <param name="odom_model_type" value="diff-corrected"/>
+    <param name="use_map_topic" value="true"/>
+    <param name="laser_model_type" value="likelihood_field"/>
+    <param name="laser_min_range" value="0.3"/>
+    <param name="laser_max_range" value="20.0"/>
+    <param name="update_min_a" value="0.2"/>
+    <param name="update_min_d" value="0.2"/>
+    <param name="initial_pose_x" value="0.0"/>
+    <param name="initial_pose_y" value="0.0"/>
+    <param name="initial_pose_a" value="0.0"/>
+    <param name="min_particles" value="200"/>
+    <param name="max_particles" value="1000"/>
+    <param name="transform_tolerance" value="1.0"/>
+  </node>
+
+  <!-- Move_base -->
+  <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
+    <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find my_robot)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find my_robot)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find my_robot)/config/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find my_robot)/config/global_planner_params.yaml" command="load" />
+
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+
+  </node>
+
+  <!-- RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" required="true" />
+</launch>
