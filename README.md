@@ -61,11 +61,10 @@ This package follows standard ROS conventions:
 
 ## 🚀 Usage
 
-**Quan trọng:** Luôn nhớ `source ~/catkin_ws/devel/setup.bash` trong mỗi terminal bạn sử dụng.
+    ```bash
+    source ~/catkin_ws/devel/setup.bash
+    ```
 
 ### 1. Launching Simulation (Gazebo + RViz)
-
-Khởi động mô phỏng Gazebo với robot và mở RViz để hiển thị.
-
 ```bash
 roslaunch my_robot sim.launch
