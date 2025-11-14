@@ -59,8 +59,8 @@ This package follows standard ROS conventions:
     source devel/setup.bash
     ```
 
-## 🚀 Usage
-
+## 🚀 Usage:
+    
     ```bash
     source ~/catkin_ws/devel/setup.bash
     ```
