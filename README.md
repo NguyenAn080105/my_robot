@@ -43,7 +43,7 @@ This package follows standard ROS conventions:
     cd ~/catkin_ws/src/
     ```
 
-2.  Clone this repository (replace `YOUR_USERNAME`):
+2.  Clone this repository:
     ```bash
     git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
     ```
