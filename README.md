@@ -45,7 +45,7 @@ This package follows standard ROS conventions:
 
 2.  Clone this repository (replace `YOUR_USERNAME`):
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/my_robot.git](https://github.com/YOUR_USERNAME/my_robot.git)
+    git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
     ```
 
 3.  Navigate back to the workspace root and build:
