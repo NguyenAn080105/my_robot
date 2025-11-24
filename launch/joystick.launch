@@ -1,0 +1,22 @@
+<launch>
+  <arg name="joy_dev" default="/dev/input/js0" />
+
+  <arg name="axis_linear" default="1" />   <arg name="axis_angular" default="0" />  <arg name="enable_button" default="0" />
+
+  <arg name="scale_linear" default="0.5" />
+  <arg name="scale_angular" default="1.0" />
+
+  <node pkg="joy" type="joy_node" name="joy_node">
+    <param name="dev" value="$(arg joy_dev)" />
+    <param name="deadzone" value="0.05" />
+    <param name="autorepeat_rate" value="20" />
+  </node>
+
+  <node pkg="teleop_twist_joy" type="teleop_node" name="teleop_twist_joy">
+    <param name="axis_linear" value="$(arg axis_linear)" />
+    <param name="axis_angular" value="$(arg axis_angular)" />
+    <param name="scale_linear" value="$(arg scale_linear)" />
+    <param name="scale_angular" value="$(arg scale_angular)" />
+    <param name="enable_button" value="$(arg enable_button)" />
+  </node>
+</launch>

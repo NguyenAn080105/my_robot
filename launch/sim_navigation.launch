@@ -29,6 +29,11 @@
 
   <!-- AMCL -->
   <node pkg="amcl" type="amcl" name="amcl">
+    <param name="update_min_d" value="0.1"/>  
+    <param name="update_min_a" value="0.1"/>  
+    <param name="recovery_alpha_slow" value="0.001"/>
+    <param name="recovery_alpha_fast" value="0.1"/>
+
     <param name="odom_frame_id" value="odom"/>
     <param name="base_frame_id" value="base_footprint"/>
     <param name="global_frame_id" value="map"/>
@@ -37,8 +42,6 @@
     <param name="laser_model_type" value="likelihood_field"/>
     <param name="laser_min_range" value="0.3"/>
     <param name="laser_max_range" value="20.0"/>
-    <param name="update_min_a" value="0.2"/>
-    <param name="update_min_d" value="0.2"/>
     <param name="initial_pose_x" value="0.0"/>
     <param name="initial_pose_y" value="0.0"/>
     <param name="initial_pose_a" value="0.0"/>
@@ -49,6 +52,11 @@
 
   <!-- Move_base -->
   <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
+    <param name="controller_frequency" value="10.0" />  
+    <param name="planner_frequency" value="0.0" />
+    <param name="planner_patience" value="5.0" />
+    <param name="controller_patience" value="5.0" />
+    
     <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find my_robot)/config/local_costmap_params.yaml" command="load" />

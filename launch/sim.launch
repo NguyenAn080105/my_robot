@@ -39,14 +39,6 @@
         output="screen"
         args="diff_drive_controller joint_state_controller"/>
 
-  <!-- TELEOP >
-  <node name="teleop_twist_keyboard" 
-        pkg="teleop_twist_keyboard" 
-        type="teleop_twist_keyboard.py" 
-        output="screen">
-    <remap from="cmd_vel" to="/diff_drive_controller/cmd_vel"/>
-  </node-->
-
   <node name="rviz"
         pkg="rviz"
         type="rviz"

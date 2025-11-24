@@ -1,12 +1,14 @@
 GlobalPlanner:
-  allow_unknown: true          # Cho phép đi qua vùng unknown (tương tự Navfn)
-  default_tolerance: 0.1       # Dung sai nếu goal bị chướng ngại (m)
-  visualize_potential: false   # Không visualize potential field (tiết kiệm)
-  use_dijkstra: false          # Tắt Dijkstra → dùng A* thuần túy
-  use_quadratic: true          # Sử dụng approximation quadratic cho potential (mượt hơn)
-  use_grid_path: false         # Không dùng grid path (dùng A* mượt)
-  old_navfn_behavior: false    # Không dùng hành vi cũ của Navfn
-  lethal_cost: 253             # Cost lethal (chướng ngại chết người)
-  neutral_cost: 66             # Cost trung lập (vùng tự do)
-  cost_factor: 0.8             # Hệ số cost cho heuristic
-  publish_potential: true      # Publish potential field để debug (có thể false nếu không cần)
+  use_dijkstra: false
+  use_grid_path: true
+  use_quadratic: true
+  
+  lethal_cost: 253
+  neutral_cost: 50
+  cost_factor: 0.55
+
+  allow_unknown: true
+  default_tolerance: 0.0
+  visualize_potential: false
+  old_navfn_behavior: false
+  publish_potential: false
