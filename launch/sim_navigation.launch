@@ -19,54 +19,48 @@
 
   <!-- Load URDF -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
-
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model my_robot_model -x 0 -y 0 -z 0.1" />
 
   <!-- Map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" required="true"/>
 
   <!-- AMCL -->
-  <node pkg="amcl" type="amcl" name="amcl">
-    <param name="update_min_d" value="0.1"/>  
-    <param name="update_min_a" value="0.1"/>  
-    <param name="recovery_alpha_slow" value="0.001"/>
-    <param name="recovery_alpha_fast" value="0.1"/>
-
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    
+    <param name="odom_model_type" value="diff-corrected"/>
+    <param name="odom_alpha1" value="0.05"/>
+    <param name="odom_alpha2" value="0.05"/> 
+    <param name="odom_alpha3" value="0.10"/>
+    <param name="odom_alpha4" value="0.05"/>
+    
     <param name="odom_frame_id" value="odom"/>
     <param name="base_frame_id" value="base_footprint"/>
     <param name="global_frame_id" value="map"/>
-    <param name="odom_model_type" value="diff-corrected"/>
+
+    <param name="update_min_d" value="0.1"/>  
+    <param name="update_min_a" value="0.1"/>  
+    <param name="min_particles" value="500"/>  <param name="max_particles" value="2000"/>
+    <param name="recovery_alpha_slow" value="0.001"/>
+    <param name="recovery_alpha_fast" value="0.1"/>
+    
     <param name="use_map_topic" value="true"/>
-    <param name="laser_model_type" value="likelihood_field"/>
-    <param name="laser_min_range" value="0.3"/>
-    <param name="laser_max_range" value="20.0"/>
-    <param name="initial_pose_x" value="0.0"/>
-    <param name="initial_pose_y" value="0.0"/>
-    <param name="initial_pose_a" value="0.0"/>
-    <param name="min_particles" value="200"/>
-    <param name="max_particles" value="1000"/>
     <param name="transform_tolerance" value="1.0"/>
+  </node>
+  
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+    <rosparam command="load" file="$(find my_robot)/config/ekf.yaml" />
+    <remap from="odometry/filtered" to="odom"/>
   </node>
 
   <!-- Move_base -->
   <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
-    <param name="controller_frequency" value="10.0" />  
-    <param name="planner_frequency" value="0.0" />
-    <param name="planner_patience" value="5.0" />
-    <param name="controller_patience" value="5.0" />
-    
     <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find my_robot)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find my_robot)/config/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find my_robot)/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find my_robot)/config/dwa_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find my_robot)/config/global_planner_params.yaml" command="load" />
-
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
-
+    <rosparam file="$(find my_robot)/config/move_base_params.yaml" command="load" />
   </node>
 
   <!-- RViz -->
