@@ -19,7 +19,7 @@ GlobalPlanner:
   
   lethal_cost: 253
   neutral_cost: 50
-  cost_factor: 0.55
+  cost_factor: 3.0
 
   allow_unknown: true
   default_tolerance: 0.0
@@ -30,7 +30,7 @@ GlobalPlanner:
 # --- Local Planner (DWA) ---
 DWAPlannerROS:
   # Vận tốc & Gia tốc
-  max_vel_x: 0.35
+  max_vel_x: 0.5
   min_vel_x: 0.0
   max_vel_theta: 1.5
   min_vel_theta: -1.5
