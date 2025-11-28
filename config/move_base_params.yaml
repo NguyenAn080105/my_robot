@@ -1,12 +1,12 @@
 # --- Common params of Move Base ---
 shutdown_costmaps: false
-controller_frequency: 10.0
+controller_frequency: 15.0
 controller_patience: 5.0
 conservative_reset_dist: 3.0
-planner_frequency: 0.0
+planner_frequency: 0.0 # Chỉ lập plan mới khi nhận được goal mới hoặc khi local planner báo tắc đường.
 planner_patience: 5.0
-oscillation_timeout: 10.0
-oscillation_distance: 0.2
+oscillation_timeout: 10.0 # Nếu trong 10 giây mà robot không di chuyển xa hơn được 0.2 mét
+oscillation_distance: 0.2 # (tức là nó cứ tiến-lùi tại chỗ), hệ thống sẽ coi là robot bị kẹt và kích hoạt recovery.
 
 base_global_planner: "global_planner/GlobalPlanner"
 base_local_planner: "dwa_local_planner/DWAPlannerROS"
@@ -14,12 +14,12 @@ base_local_planner: "dwa_local_planner/DWAPlannerROS"
 # --- Global Planner (A*) ---
 GlobalPlanner:
   use_dijkstra: false
-  use_grid_path: true
+  use_grid_path: false
   use_quadratic: true
   
-  lethal_cost: 253
-  neutral_cost: 50
-  cost_factor: 0.55
+  lethal_cost: 253 # Giá trị trên bản đồ costmap >= 253 được coi là vật cản tuyệt đối.
+  neutral_cost: 50 # Chi phí cơ bản cho việc di chuyển qua một ô trống.
+  cost_factor: 3.0 # Giá trị này càng cao nghĩa là robot rất "sợ" các vùng gần vật cản (vùng màu xám/đỏ). Nó sẽ cố gắng chọn đường đi nằm giữa không gian trống để tránh bị phạt điểm cao.
 
   allow_unknown: true
   default_tolerance: 0.0
@@ -30,7 +30,7 @@ GlobalPlanner:
 # --- Local Planner (DWA) ---
 DWAPlannerROS:
   # Vận tốc & Gia tốc
-  max_vel_x: 0.35
+  max_vel_x: 0.5
   min_vel_x: 0.0
   max_vel_theta: 1.5
   min_vel_theta: -1.5
@@ -41,9 +41,10 @@ DWAPlannerROS:
   acc_lim_y: 0.0
 
   # Goal
-  xy_goal_tolerance: 0.15
+  xy_goal_tolerance: 0.15 # Khi robot cách đích trong vòng 15cm, nó coi như đã đến nơi.
   yaw_goal_tolerance: 0.15
   latch_xy_goal_tolerance: false
+  # Nếu true, khi robot lọt vào vùng 15cm, nó sẽ không quan tâm đến vị trí nữa mà chỉ xoay cho đúng hướng. Nếu false, trong lúc xoay mà bị trôi ra khỏi vòng goal, nó sẽ cố chỉnh lại vị trí.
 
   # Simulation
   sim_time: 2.0
