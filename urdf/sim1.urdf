@@ -35,7 +35,7 @@
       <ray>
         <scan>
           <horizontal>
-            <samples>360</samples>
+            <samples>720</samples>
             <min_angle>-3.14159</min_angle>
             <max_angle>3.14159</max_angle>
           </horizontal>
@@ -120,10 +120,10 @@
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
       </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1.0"/>
+      </material>
     </visual>
-    <material name="blue">
-      <color rgba="0 0 1 1.0"/>
-    </material>
     <collision>
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
@@ -140,10 +140,10 @@
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
       </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1.0"/>
+      </material>
     </visual>
-    <material name="blue">
-      <color rgba="0 0 1 1.0"/>
-    </material>
     <collision>
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
@@ -160,10 +160,10 @@
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
       </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1.0"/>
+      </material>
     </visual>
-    <material name="blue">
-      <color rgba="0 0 1 1.0"/>
-    </material>
     <collision>
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
@@ -180,10 +180,10 @@
       <geometry>
         <cylinder length="0.025" radius="0.032"/>
       </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1.0"/>
+      </material>
     </visual>
-    <material name="blue">
-      <color rgba="0 0 1 1.0"/>
-    </material>
     <collision>
       <geometry>
         <cylinder length="0.025" radius="0.032"/>

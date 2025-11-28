@@ -3,13 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - /Status1
-        - /LaserScan1
-        - /RobotModel1
-        - /Path_LocalPlan1
-        - /Path_GlobalPlan1
+      Expanded: ~
       Splitter Ratio: 0.4605475068092346
     Tree Height: 728
   - Class: rviz/Selection
@@ -97,6 +91,8 @@ Visualization Manager:
           Value: true
         chassis:
           Value: true
+        imu_link:
+          Value: true
         laser_frame:
           Value: true
         left_front_wheel:
@@ -122,6 +118,8 @@ Visualization Manager:
             base_footprint:
               base_link:
                 chassis:
+                  imu_link:
+                    {}
                   laser_frame:
                     {}
                 left_front_wheel:
@@ -153,6 +151,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
         chassis:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -244,6 +247,26 @@ Visualization Manager:
       Topic: /move_base/GlobalPlanner/plan
       Unreliable: false
       Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: false
+      Name: LocalCostmap
+      Topic: /move_base/local_costmap/costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: true
+      Name: GlobalCostmap
+      Topic: /move_base/global_costmap/costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -272,25 +295,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.057514190673828
+      Distance: 10.464837074279785
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.6736170053482056
-        Y: -0.03760889172554016
-        Z: 1.3667852878570557
+        X: 2.5665056705474854
+        Y: -0.2062380611896515
+        Z: 5.038541793823242
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.44979748129844666
+      Pitch: 1.274796485900879
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.1008481979370117
+      Yaw: 3.1058480739593506
     Saved: ~
 Window Geometry:
   Displays:
