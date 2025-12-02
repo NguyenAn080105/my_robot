@@ -19,7 +19,7 @@ odom0: /odom/wheel
 odom0_config: [false, false, false,
                false, false, false,
                true,  false, false,   # Chỉ lấy Vx (Vận tốc tới)
-               false, false, true,    # Chỉ lấy Vyaw (Vận tốc xoay)
+               false, false, false,
                false, false, false]
 
 odom0_queue_size: 10

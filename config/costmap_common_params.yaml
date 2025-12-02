@@ -11,7 +11,7 @@ obstacle_layer:
 
 inflation_layer:
   enabled: true
-  cost_scaling_factor: 5.0
-  inflation_radius: 0.5
+  cost_scaling_factor: 2.0
+  inflation_radius: 0.55
 
 footprint: [[0.145, 0.13], [0.145, -0.13], [-0.145, -0.13], [-0.145, 0.13]]
