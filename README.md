@@ -1,68 +1,99 @@
-# my_robot
+Autonomous Mobile Robot (AMR) Implementation with ROS Melodic
 
-A ROS (Robot Operating System) package for simulating and navigating a custom differential drive robot. This package is configured for **ROS Melodic Morenia** on **Ubuntu 18.04**.
+Project Abstract
 
-It includes configurations for Gazebo simulation, the ROS Navigation Stack (move_base), and hardware integration for an RPLidar S2E.
+This project involves the design, simulation, and deployment of an autonomous differential drive robot using the Robot Operating System (ROS Melodic). The system is engineered to perform Simultaneous Localization and Mapping (SLAM) and autonomous navigation in both simulated environments (Gazebo) and real-world scenarios.
 
-## 📦 Package Structure
+The primary objective was to bridge the gap between simulation and hardware implementation, demonstrating proficiency in robot modeling, sensor integration, and motion planning algorithms.
 
-This package follows standard ROS conventions:
+Key Technical Achievements
 
-* **/config**: All `.yaml` configurations for `move_base` (planners, costmaps), robot controllers, and `.rviz` files.
-* **/include**: C++ header files.
-* **/launch**: `.launch` files to start simulations, navigation, and hardware drivers.
-* **/maps**: Pre-generated maps (`.pgm`, `.yaml`) for autonomous navigation.
-* **/src**: C++ source code (nodes).
-* **/urdf**: Robot model definition files (`.urdf`) for simulation and visualization.
-* **/worlds**: Custom Gazebo world files (`.world`).
+1. Robot Modeling & Simulation
 
-## 🛠️ Installation
+URDF/Xacro Design: Designed a custom Unified Robot Description Format (URDF) model for a differential drive robot, incorporating physical properties (inertia, collision) and visual geometry.
 
-### Prerequisites
+Gazebo Environment: Developed custom simulation worlds in Gazebo 9 to stress-test the robot's navigation capabilities.
 
-* Ubuntu 18.04
-* ROS Melodic Morenia
-* Gazebo 9
-* ROS Navigation Stack:
-    ```bash
-    sudo apt-get install ros-melodic-navigation
-    ```
-* ROS Control:
-    ```bash
-    sudo apt-get install ros-melodic-ros-control ros-melodic-ros-controllers
-    ```
-* RPLidar ROS:
-    ```bash
-    sudo apt-get install ros-melodic-rplidar-ros
-    ```
+Sensor Simulation: Integrated virtual sensor plugins (Lidar, IMU, Encoders) to replicate real-world data streams within the simulation.
 
-### Building from Source
+2. Autonomous Navigation & Path Planning
 
-1.  Navigate to your Catkin workspace's `src` directory:
-    ```bash
-    cd ~/catkin_ws/src/
-    ```
+ROS Navigation Stack: Successfully implemented the move_base package for global and local path planning.
 
-2.  Clone this repository:
-    ```bash
-    git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
-    ```
+Costmap Tuning: Configured and tuned local_costmap and global_costmap parameters (inflation radius, obstacle marking) to optimize obstacle avoidance in dynamic environments.
 
-3.  Navigate back to the workspace root and build:
-    ```bash
-    cd ~/catkin_ws/
-    catkin_make
-    ```
+Localization: Deployed Adaptive Monte Carlo Localization (AMCL) to accurately estimate the robot's pose within a known map.
 
-4.  Source the workspace to update your environment:
-    ```bash
-    source ~/catkin_ws/devel/setup.bash
-    ```
-    *Note: You must do this in every new terminal you open.*
+3. Hardware Integration
 
-## 🚀 Usage
+Lidar Interfacing: Integrated the RPLidar S2E sensor effectively, handling driver configuration and frame transformations (TF) to align hardware data with the simulation model.
 
-**Important:** Always remember to source your workspace in every new terminal before running ROS commands:
+SLAM Implementation: Utilized gmapping (FastSLAM algorithm) to generate 2D occupancy grid maps of unknown environments for future navigation tasks.
 
-```bash
-source ~/catkin_ws/devel/setup.bash
+System Architecture
+
+The package is structured according to standard ROS development practices:
+
+/urdf: Contains the robot's physical description and kinematic model.
+
+/config: Holds critical parameter files for the navigation stack (planners, costmaps) and controller settings.
+
+/launch: Orchestration scripts for bringing up simulation, hardware drivers, and navigation nodes simultaneously.
+
+/maps: Stores generated .pgm and .yaml map files used by the map server.
+
+/worlds: Custom environment files for Gazebo simulation.
+
+Technical Specifications & Prerequisites
+
+Operating System: Ubuntu 18.04 (Bionic Beaver)
+
+Middleware: ROS Melodic Morenia
+
+Simulation: Gazebo 9, RViz
+
+Hardware: Differential Drive Chassis, RPLidar S2E
+
+Languages: C++, Python, XML (Launch/URDF)
+
+Quick Start Guide
+
+1. Installation
+
+Ensure ROS Melodic and the Navigation Stack are installed.
+
+# Clone the repository
+cd ~/catkin_ws/src/
+git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
+
+# Install dependencies and build
+cd ~/catkin_ws/
+catkin_make
+source devel/setup.bash
+
+
+2. Running Simulation
+
+Launch the robot in the Gazebo simulation environment:
+
+roslaunch my_robot world.launch
+
+
+3. Running Autonomous Navigation
+
+Initiate the navigation stack with AMCL and Move Base:
+
+roslaunch my_robot amcl.launch
+
+
+Use RViz to set a "2D Nav Goal" and observe the robot's autonomous path planning.
+
+4. Hardware Deployment (RPLidar)
+
+Launch the driver for the physical Lidar sensor:
+
+roslaunch my_robot rplidar.launch
+
+
+Author: Nguyen An
+Repository: github.com/NguyenAn080105/my_robot
