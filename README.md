@@ -1,152 +1,62 @@
-<div align="center">
+# Autonomous Mobile Robot Project (ROS Melodic)
 
-🤖 Autonomous Mobile Robot (AMR)
+![ROS Melodic](https://img.shields.io/badge/ROS-Melodic-orange)
+![Gazebo](https://img.shields.io/badge/Simulator-Gazebo-blue)
+![C++](https://img.shields.io/badge/Language-C%2B%2B%20%7C%20Python-blue)
+![Build](https://img.shields.io/badge/Build-Catkin-green)
 
-ROS Melodic Implementation on Differential Drive Robot
+## 📖 Project Overview
 
-<!-- BẠN HÃY THAY LINK ẢNH DƯỚI ĐÂY BẰNG ẢNH ROBOT THẬT HOẶC ẢNH GAZEBO CỦA BẠN -->
+This project focuses on designing, simulating, and navigating a **differential drive mobile robot** within the **Robot Operating System (ROS)** framework. The primary goal is to demonstrate a complete autonomous navigation pipeline, ranging from chassis modeling to path planning in a dynamic environment.
 
-<!-- Nếu chưa có ảnh, hãy xóa dòng này hoặc để tạm một ảnh placeholder -->
+The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to perform Simultaneous Localization and Mapping (**SLAM**) and autonomous navigation using the ROS Navigation Stack.
 
-<img src="https://www.google.com/search?q=https://raw.githubusercontent.com/ros-planning/navigation/noetic-devel/navigation_stage/images/stage_rviz.png" width="800" alt="Robot Simulation Preview">
+## 🚀 Key Technical Features
 
-</div>
+### 1. Robot Modeling (URDF & Xacro)
+* **Chassis Design:** Developed a custom differential drive robot using **URDF** (Unified Robot Description Format) and **Xacro** for modular code structure.
+* **Physics Simulation:** Configured inertia matrices, collision boundaries, and friction coefficients to ensure realistic kinematic behavior in the Gazebo physics engine.
+* **Sensor Integration:**
+    * **Lidar (S2E):** Integrated for 2D obstacle detection and mapping.
+    //* **RGB-D Camera:** Integrated for visual feedback and depth perception.
 
-📖 Overview
+### 2. SLAM (Simultaneous Localization and Mapping)
+* Implemented the **gmapping** package (based on the FastSLAM algorithm) to generate a high-resolution 2D occupancy grid map of unknown environments.
+* Optimized laser scan matching parameters to reduce map drifting and enhance loop closure accuracy.
 
-This project implements a full-stack navigation solution for a custom differential drive robot. It bridges the gap between simulation (Gazebo) and real-world hardware (RPLidar S2E), demonstrating advanced capabilities in mapping, localization, and autonomous path planning.
+### 3. Autonomous Navigation System
+* **Localization (AMCL):** Utilized the Adaptive Monte Carlo Localization (particle filter) to track the robot's pose within a known map with high accuracy.
+* **Path Planning (Move Base):**
+    * **Global Planner:** Implemented Dijkstra/A* algorithms for calculating the optimal path from start to goal.
+    * **Local Planner:** Tuned the Dynamic Window Approach (DWA) controller to execute smooth velocity commands and avoid dynamic obstacles in real-time.
+    * **Costmaps:** Configured global and local costmap layers (inflation, obstacle) to define safe navigation zones.
 
-The system is engineered to handle dynamic environments using the ROS Navigation Stack, optimized costmaps, and adaptive localization algorithms.
+### 4. Simulation Environment
+* Designed a custom Gazebo world featuring complex geometries, narrow corridors, and obstacles to rigorously test the robot's navigation capabilities.
 
-✨ Key Features
+---
 
-Feature
+## 🛠 Technology Stack
 
-Description
+| Component | Technology / Library |
+| :--- | :--- |
+| **OS** | Ubuntu 18.04 (Bionic) |
+| **Middleware** | ROS Melodic |
+| **Simulation** | Gazebo, RViz |
+| **Languages** | C++, Python, XML (Launch/URDF) |
+| **Build System** | Catkin |
+| **Key Packages** | `gmapping`, `amcl`, `move_base`, `xacro`, `gazebo_ros` |
 
-Status
+---
 
-SLAM
+## 📂 Project Structure
 
-Real-time mapping using gmapping (FastSLAM) & Lidar data.
-
-✅
-
-Localization
-
-Robust pose estimation using AMCL (Adaptive Monte Carlo).
-
-✅
-
-Navigation
-
-Autonomous path planning with move_base (Global/Local Planners).
-
-✅
-
-Simulation
-
-High-fidelity URDF modeling and Gazebo physics environment.
-
-✅
-
-Hardware
-
-Seamless integration with RPLidar S2E and motor controllers.
-
-✅
-
-📂 Project Structure
-
+```bash
 my_robot/
-├── config/             # Navigation parameters (costmaps, planners)
-├── launch/             # Launch files (Simulation, Drivers, AMCL)
-├── maps/               # Occupancy Grid Maps (.pgm, .yaml)
-├── meshes/             # 3D assets for the robot
-├── urdf/               # Robot Description (Xacro/URDF)
-├── worlds/             # Custom Gazebo environments
-├── src/                # Source code for nodes
+├── launch/             # Launch files (world, amcl, mapping)
+├── meshes/             # 3D assets (dae/stl files) for the robot
+├── urdf/               # Robot description files (.xacro)
+├── world/              # Custom simulation environments (.world)
+├── maps/               # Generated maps (.pgm and .yaml)
+├── config/             # Navigation parameter files (costmaps, planners)
 └── CMakeLists.txt      # Build configuration
-
-
-🛠️ Tech Stack & Hardware
-
-Middleware: ROS Melodic Morenia
-
-OS: Ubuntu 18.04 Bionic
-
-Languages: C++, Python, XML
-
-Sensors: RPLidar S2E (Laser Scan), IMU, Wheel Encoders
-
-Simulation: Gazebo 9, RViz
-
-🚀 Getting Started
-
-1. Prerequisites
-
-Ensure you have the standard ROS Melodic navigation packages installed:
-
-sudo apt-get install ros-melodic-navigation \
-                     ros-melodic-map-server \
-                     ros-melodic-move-base \
-                     ros-melodic-amcl \
-                     ros-melodic-rplidar-ros
-
-
-2. Installation
-
-Clone the repository directly into your catkin workspace:
-
-cd ~/catkin_ws/src
-git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
-
-# Build the project
-cd ~/catkin_ws
-catkin_make
-source devel/setup.bash
-
-
-3. Usage Guide
-
-🏗️ Simulation Mode
-
-Launch the robot in the custom Gazebo world:
-
-roslaunch my_robot world.launch
-
-
-🧭 Autonomous Navigation
-
-Start the navigation stack (AMCL + Move Base) with a pre-built map:
-
-roslaunch my_robot amcl.launch
-
-
-Tip: Open RViz and use the "2D Nav Goal" tool to instruct the robot to move to a specific coordinate.
-
-🗺️ SLAM (Mapping)
-
-To generate a map of a new environment:
-
-roslaunch my_robot gmapping.launch
-
-
-🔌 Hardware Driver
-
-To start the physical robot sensors:
-
-roslaunch my_robot rplidar.launch
-
-
-<div align="center">
-
-Developed by Nguyen An
-
-
-
-
-
-GitHub Profile
-
-</div>
