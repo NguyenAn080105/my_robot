@@ -23,8 +23,6 @@ The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to 
 ![Gmapping Demo](assets/slam_demo.gif)
 *The robot creates the map while teleoperating through the environment.*
 
-<br>
-
 ### 2. Autonomous Navigation and Obstacle Avoidance
 This demo showcases the complete navigation pipeline working in unison:
 * **AMCL:** Localizes the robot (visualized by the converging green particle cloud).
