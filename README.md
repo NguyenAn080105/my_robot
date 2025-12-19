@@ -16,12 +16,21 @@ The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to 
 ### 1. Mapping Process (SLAM - Gmapping)
 *The robot explores the unknown environment and builds a 2D occupancy grid map.*
 
-| Gazebo Environment | RViz Mapping |
-| :---: | :---: |
-| ![Gazebo World](path/to/your/gazebo_world_screenshot.png) | ![Gmapping Demo](path/to/your/slam_process.gif) |
-*Left: Custom Gazebo World | Right: Real-time map generation using Gmapping*
+**The Simulation Environment (Gazebo):**
+![Gazebo World](assets/gazebo_world.png)
 
-### 2. Autonomous Navigation and Obstacle Avoidance (AMCL + Move Base + DWA)
+**Real-time Mapping (RViz):**
+![Gmapping Demo](assets/slam_demo.gif)
+*The robot creates the map while teleoperating through the environment.*
+
+<br>
+
+### 2. Autonomous Navigation and Obstacle Avoidance
+This demo showcases the complete navigation pipeline working in unison:
+* **AMCL:** Localizes the robot (visualized by the converging green particle cloud).
+* **Move Base:** Plans the global path (green line) to the user-defined goal.
+* **DWA Local Planner:** Controls velocity to smoothly follow the path while dynamically avoiding obstacles.
+
 *The robot localizes itself and plans a path to the user-defined goal while avoiding obstacles.*
 
 ![Navigation Demo](NguyenAn080105/my_robot/assets/navigation.gif)
