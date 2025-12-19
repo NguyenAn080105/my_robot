@@ -58,5 +58,6 @@ my_robot/
 ├── world/              # Custom simulation environments (.world)
 ├── maps/               # Generated maps (.pgm and .yaml)
 ├── config/             # Navigation parameter files (costmaps, planners)
+├── package.xml
 └── CMakeLists.txt      # Build configuration
 ```
