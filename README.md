@@ -60,8 +60,9 @@ my_robot/
 ├── maps/               # Generated maps (.pgm and .yaml)
 ├── config/             # Navigation parameter files (costmaps, planners)
 └── CMakeLists.txt      # Build configuration
-### Building from Source
 ```
+
+### Building from Source
 1.  Navigate to your Catkin workspace's `src` directory:
     ```bash
     cd ~/catkin_ws/src/
