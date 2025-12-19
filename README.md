@@ -40,7 +40,9 @@ This demo showcases the complete navigation pipeline working in unison:
 </p>
 
 ![Dynamic Obstacle Avoidance](assets/DynamicObstacleAvoidance.gif)
-*Demonstration of the local planner avoiding dynamic obstacles.*
+<p align="center">
+  <em>Demonstration of the local planner avoiding dynamic obstacles.</em>
+</p>
 
 ---
 
