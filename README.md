@@ -54,7 +54,6 @@ The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to 
 ```bash
 my_robot/
 ├── launch/             # Launch files (world, amcl, mapping)
-├── meshes/             # 3D assets (dae/stl files) for the robot
 ├── urdf/               # Robot description files (.xacro)
 ├── world/              # Custom simulation environments (.world)
 ├── maps/               # Generated maps (.pgm and .yaml)
