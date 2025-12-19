@@ -60,3 +60,33 @@ my_robot/
 ├── maps/               # Generated maps (.pgm and .yaml)
 ├── config/             # Navigation parameter files (costmaps, planners)
 └── CMakeLists.txt      # Build configuration
+### Building from Source
+```
+1.  Navigate to your Catkin workspace's `src` directory:
+    ```bash
+    cd ~/catkin_ws/src/
+    ```
+
+2.  Clone this repository:
+    ```bash
+    git clone [https://github.com/NguyenAn080105/my_robot.git](https://github.com/NguyenAn080105/my_robot.git)
+    ```
+
+3.  Navigate back to the workspace root and build:
+    ```bash
+    cd ~/catkin_ws/
+    catkin_make
+    ```
+
+4.  Source the workspace to update your environment:
+    ```bash
+    source ~/catkin_ws/devel/setup.bash
+    ```
+    *Note: You must do this in every new terminal you open.*
+
+## Usage
+
+**Important:** Always remember to source your workspace in every new terminal before running ROS commands:
+
+```bash
+source ~/catkin_ws/devel/setup.bash
