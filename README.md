@@ -18,7 +18,7 @@ The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to 
 * **Physics Simulation:** Configured inertia matrices, collision boundaries, and friction coefficients to ensure realistic kinematic behavior in the Gazebo physics engine.
 * **Sensor Integration:**
     * **Lidar (S2E):** Integrated for 2D obstacle detection and mapping.
-    * **RGB-D Camera:** Integrated for visual feedback and depth perception.
+    * **IMU (Inertial Measurement Unit):** Integrated to provide accurate orientation (yaw/pitch/roll) and acceleration data to improve pose estimation.
 
 ### 2. SLAM (Simultaneous Localization and Mapping)
 * Implemented the **gmapping** package (based on the FastSLAM algorithm) to generate a high-resolution 2D occupancy grid map of unknown environments.
