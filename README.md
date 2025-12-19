@@ -21,16 +21,14 @@ The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to 
 | ![Gazebo World](path/to/your/gazebo_world_screenshot.png) | ![Gmapping Demo](path/to/your/slam_process.gif) |
 *Left: Custom Gazebo World | Right: Real-time map generation using Gmapping*
 
-### 2. Autonomous Navigation (AMCL + Move Base)
+### 2. Autonomous Navigation and Obstacle Avoidance (AMCL + Move Base + DWA)
 *The robot localizes itself and plans a path to the user-defined goal while avoiding obstacles.*
 
-![Navigation Demo](path/to/your/navigation_demo.gif)
-*Green arrow array represents the AMCL particle cloud convergence.*
+![Navigation Demo](NguyenAn080105/my_robot/assets/navigation.gif)
+*Red line represents global path and  the green on represents local path.*
 
-### 3. Obstacle Avoidance (Dynamic Window Approach)
+![Dynamic Obstacle Avoidance](NguyenAn080105/my_robot/assets/DynamicObstacleAvoidance.gif)
 *Demonstration of the local planner avoiding dynamic/static obstacles.*
-
-![Obstacle Avoidance](path/to/your/obstacle_avoidance.gif)
 
 ---
 
