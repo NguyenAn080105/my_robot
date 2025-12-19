@@ -33,11 +33,14 @@ This demo showcases the complete navigation pipeline working in unison:
 
 *The robot localizes itself and plans a path to the user-defined goal while avoiding obstacles.*
 
-![Navigation Demo](assets/navigation.gif)
-*Red line represents global path and  the green on represents local path.*
+<p align="center">
+  <img src="assets/navigation.gif" alt="Navigation Demo" width="50%">
+  <br>
+  <em>Red line represents global path and the green one represents local path.</em>
+</p>
 
 ![Dynamic Obstacle Avoidance](assets/DynamicObstacleAvoidance.gif)
-*Demonstration of the local planner avoiding dynamic/static obstacles.*
+*Demonstration of the local planner avoiding dynamic obstacles.*
 
 ---
 
