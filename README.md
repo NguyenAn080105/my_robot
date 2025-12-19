@@ -11,6 +11,29 @@ This project focuses on designing, simulating, and navigating a **differential d
 
 The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to perform Simultaneous Localization and Mapping (**SLAM**) and autonomous navigation using the ROS Navigation Stack.
 
+---
+## 📊 Simulation Results
+### 1. Mapping Process (SLAM - Gmapping)
+*The robot explores the unknown environment and builds a 2D occupancy grid map.*
+
+| Gazebo Environment | RViz Mapping |
+| :---: | :---: |
+| ![Gazebo World](path/to/your/gazebo_world_screenshot.png) | ![Gmapping Demo](path/to/your/slam_process.gif) |
+*Left: Custom Gazebo World | Right: Real-time map generation using Gmapping*
+
+### 2. Autonomous Navigation (AMCL + Move Base)
+*The robot localizes itself and plans a path to the user-defined goal while avoiding obstacles.*
+
+![Navigation Demo](path/to/your/navigation_demo.gif)
+*Green arrow array represents the AMCL particle cloud convergence.*
+
+### 3. Obstacle Avoidance (Dynamic Window Approach)
+*Demonstration of the local planner avoiding dynamic/static obstacles.*
+
+![Obstacle Avoidance](path/to/your/obstacle_avoidance.gif)
+
+---
+
 ## 🚀 Key Technical Features
 
 ### 1. Robot Modeling (URDF & Xacro)
@@ -58,6 +81,28 @@ my_robot/
 ├── world/              # Custom simulation environments (.world)
 ├── maps/               # Generated maps (.pgm and .yaml)
 ├── config/             # Navigation parameter files (costmaps, planners)
+├── assets/
 ├── package.xml
 └── CMakeLists.txt      # Build configuration
+```
+
+## 💻 How to run
+### 1. Build the package
+
+```bash
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+```
+
+### 2. Launch simulation
+
+```bash
+roslaunch my_robot sim_robot.launch
+```
+
+## 3. Run navigation
+
+```bash
+roslaunch my_robot navigation.launch
 ```
