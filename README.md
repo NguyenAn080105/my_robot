@@ -32,7 +32,7 @@ This demo showcases the complete navigation pipeline working in unison:
 *The robot localizes itself and plans a path to the user-defined goal while avoiding obstacles.*
 
 <p align="center">
-  <img src="assets/navigation.gif" alt="Navigation Demo" width="75%">
+  <img src="assets/navigation.gif" alt="Navigation Demo" width="70%">
   <br>
   <em>Red line represents global path and the green one represents local path.</em>
 </p>
