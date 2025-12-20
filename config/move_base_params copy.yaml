@@ -1,6 +1,6 @@
 # --- Common params of Move Base ---
 shutdown_costmaps: false
-controller_frequency: 5.0
+controller_frequency: 10.0
 controller_patience: 5.0
 conservative_reset_dist: 3.0
 planner_frequency: 0.0 # Chỉ lập plan mới khi nhận được goal mới hoặc khi local planner báo tắc đường.
@@ -57,16 +57,16 @@ DWAPlannerROS:
   # Nếu true, khi robot lọt vào vùng 15cm, nó sẽ không quan tâm đến vị trí nữa mà chỉ xoay cho đúng hướng. Nếu false, trong lúc xoay mà bị trôi ra khỏi vòng goal, nó sẽ cố chỉnh lại vị trí.
 
   # Simulation
-  sim_time: 1.0
-  vx_samples: 15
+  sim_time: 1.5
+  vx_samples: 6
   vy_samples: 0
-  vth_samples: 25
+  vth_samples: 10
   
   # Bám đường
-  path_distance_bias: 20.0
+  path_distance_bias: 32.0
   goal_distance_bias: 24.0
   occdist_scale: 0.05
-  forward_point_distance: 0.3
+  forward_point_distance: 0.25
   
   stop_time_buffer: 0.2
   scaling_speed: 0.25

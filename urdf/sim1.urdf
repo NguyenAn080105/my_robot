@@ -306,10 +306,9 @@
       <odometryTopic>odom/wheel</odometryTopic> 
       
       <publishOdomTF>false</publishOdomTF> 
-      
-      <odometrySource>encoder</odometrySource> 
-      
       <publishWheelTF>false</publishWheelTF>
+
+      <odometrySource>encoder</odometrySource> 
       <publishOdom>true</publishOdom>
       <publishWheelJointState>false</publishWheelJointState>
       <wheelTorque>5</wheelTorque>
