@@ -23,11 +23,7 @@ The system is simulated in **Gazebo**, utilizing sensor fusion (Lidar & IMU) to 
 ![Gmapping Demo](assets/slam_demo.gif)
 *The robot creates the map while teleoperating through the environment.*
 
-### 2. Autonomous Navigation and Obstacle Avoidance
-This demo showcases the complete navigation pipeline working in unison:
-* **AMCL:** Localizes the robot (visualized by the converging green particle cloud).
-* **Move Base:** Plans the global path (green line) to the user-defined goal.
-* **DWA Local Planner:** Controls velocity to smoothly follow the path while dynamically avoiding obstacles.
+### 2. Autonomous Navigation and Obstacle Avoidance (AMCL + Move Base + DWA)
 
 *The robot localizes itself and plans a path to the user-defined goal while avoiding obstacles.*
 
@@ -49,6 +45,16 @@ This demo showcases the complete navigation pipeline working in unison:
 ### 1. Robot Modeling (URDF & Xacro)
 * **Chassis Design:** Developed a custom differential drive robot using **URDF** (Unified Robot Description Format) and **Xacro** for modular code structure.
 * **Physics Simulation:** Configured inertia matrices, collision boundaries, and friction coefficients to ensure realistic kinematic behavior in the Gazebo physics engine.
+
+**Robot Model in RViz:**
+<p align="center">
+  <img src="assets/robot_description.png" alt="Robot URDF Visualization">
+  <br>
+  <em>Visualization of the robot chassis, wheels, and sensors.</em>
+</p>
+
+*The Transform (TF) tree defines the relationship between coordinate frames (odom -> base_footprint -> base_link -> sensors), ensuring accurate localization and sensor data processing.*
+
 * **Sensor Integration:**
     * **Lidar (S2E):** Integrated for 2D obstacle detection and mapping.
     * **IMU (Inertial Measurement Unit):** Integrated to provide accurate orientation (yaw/pitch/roll) and acceleration data to improve pose estimation.
