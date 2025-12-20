@@ -116,3 +116,8 @@ roslaunch my_robot sim_robot.launch
 ```bash
 roslaunch my_robot navigation.launch
 ```
+
+## 👤 Author <br>
+Name: Hoang An Nguyen <br>
+GitHub: NguyenAn080105 <br>
+Email: nguyenan080105@gmail.com
