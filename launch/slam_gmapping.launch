@@ -7,10 +7,10 @@
   <param name="robot_description" 
          command="$(find xacro)/xacro --inorder $(arg model)" />
   
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <!--node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/-->
 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
-    <rosparam command="load" file="$(find my_robot)/config/ekf.yaml" />
+    <rosparam command="load" file="$(find my_robot)/config/ekf/ekf.yaml" />
     <remap from="odometry/filtered" to="odom"/>
   </node>
 

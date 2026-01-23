@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="my_robot">
+
   <!-- Laser (LiDAR) -->
   <joint name="laser_joint" type="fixed">
     <parent link="chassis"/>
@@ -22,7 +23,7 @@
     </collision>
     <inertial>
       <mass value="0.1"/>
-      <inertia ixx="7.583333333333335e-05" ixy="0" ixz="0" iyy="0.00012500000000000003" iyz="0" izz="7.583333333333335e-05"/>
+      <inertia ixx="7.58e-05" ixy="0" ixz="0" iyy="0.000125" iyz="0" izz="7.585e-05"/>
     </inertial>
   </link>
 
@@ -51,6 +52,7 @@
       </plugin>
     </sensor>
   </gazebo>
+
   <!-- IMU -->
   <link name="imu_link">
     <visual>
@@ -78,6 +80,115 @@
     <origin xyz="0 0 0.05" rpy="0 0 0"/>
   </joint>
 
+  <gazebo reference="imu_link">
+   <material>Gazebo/Blue</material>
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- CAMERA -->
+  <link name="camera_link">
+    <visual name="camera_body_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.024 0.094 0.029"/>
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.2 0.2 0.2 1.0"/>
+      </material>
+    </visual>
+    
+    <visual name="camera_lens_visual">
+      <origin xyz="0.015 0 0" rpy="0 1.570796 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.005"/>
+      </geometry>
+      <material name="black_lens">
+        <color rgba="0.05 0.05 0.05 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0.005 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.035 0.096 0.031"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.15"/> <inertia ixx="0.00004" ixy="0" ixz="0" iyy="0.000006" iyz="0" izz="0.00004"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="camera_link"/>
+    <origin xyz="0.1045 0 0.1055" rpy="0 0 0"/>
+  </joint>
+
+  <link name="camera_optical_link"/>
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+  </joint>
+
+  <gazebo reference="camera_link">
+    <material>Gazebo/DarkGrey</material>
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+
+      <pose>0.03 0 0 0 0 0</pose> 
+
+      <camera name="head">
+      <horizontal_fov>1.5707</horizontal_fov> 
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>my_robot/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_optical_link</frameName> <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
   <!--height_box = height_total(27) - wheel_radius - LiDAR-->
   <!-- Base link -->
   <link name="base_link">
@@ -88,6 +199,7 @@
     <child link="base_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.152"/>
   </joint>
+
   <!-- CHASSIS -->
   <joint name="chassis_joint" type="fixed">
     <parent link="base_link"/>
@@ -108,8 +220,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="2.15"/>
-      <inertia ixx="0.015257116666666666" ixy="0" ixz="0" iyy="0.01645197916666666" iyz="0" izz="0.011069095833333332"/>
+      <mass value="4.4"/>
+      <inertia ixx="0.031" ixy="0" ixz="0" iyy="0.034" iyz="0" izz="0.022"/>
     </inertial>
   </link>
 
@@ -130,8 +242,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="0.035"/>
-      <inertia ixx="1.0782916666666668e-05" ixy="0" ixz="0" iyy="1.792e-05" iyz="0" izz="1.0782916666666668e-05"/>
+      <mass value="0.1"/> 
+      <inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00003" iyz="0" izz="0.00005"/>
     </inertial>
   </link>
 
@@ -150,10 +262,11 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="0.035"/>
-      <inertia ixx="1.0782916666666668e-05" ixy="0" ixz="0" iyy="1.792e-05" iyz="0" izz="1.0782916666666668e-05"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00003" iyz="0" izz="0.00005"/>
     </inertial>
   </link>
+
   <!-- REAR WHEELS -->
   <link name="left_rear_wheel">
     <visual>
@@ -170,8 +283,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="0.035"/>
-      <inertia ixx="1.0782916666666668e-05" ixy="0" ixz="0" iyy="1.792e-05" iyz="0" izz="1.0782916666666668e-05"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00003" iyz="0" izz="0.00005"/>
     </inertial>
   </link>
 
@@ -190,8 +303,8 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="0.035"/>
-      <inertia ixx="1.0782916666666668e-05" ixy="0" ixz="0" iyy="1.792e-05" iyz="0" izz="1.0782916666666668e-05"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00003" iyz="0" izz="0.00005"/>
     </inertial>
   </link>
   <!-- WHEEL JOINTS -->
@@ -232,8 +345,8 @@
   <gazebo reference="right_front_wheel">
     <material>Gazebo/Black</material>
     <mu1>1.0</mu1>
-    <mu2>0.01</mu2> 
-    <kp>1000000.0</kp>
+    <mu2>0.01</mu2>
+    <kp>10000000.0</kp> 
     <kd>1.0</kd>
     <minDepth>0.005</minDepth>
     <fdir1>1 0 0</fdir1>
@@ -243,7 +356,7 @@
     <material>Gazebo/Black</material>
     <mu1>1.0</mu1>
     <mu2>0.01</mu2>
-    <kp>1000000.0</kp>
+    <kp>10000000.0</kp> 
     <kd>1.0</kd>
     <minDepth>0.005</minDepth>
     <fdir1>1 0 0</fdir1>
@@ -267,28 +380,6 @@
     <kd>1.0</kd>
     <minDepth>0.005</minDepth>
     <fdir1>1 0 0</fdir1> 
-  </gazebo>
-
-  <gazebo reference="imu_link">
-   <material>Gazebo/Blue</material>
-    <gravity>true</gravity>
-    <sensor name="imu_sensor" type="imu">
-      <always_on>true</always_on>
-      <update_rate>100</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>imu</topicName>
-        <bodyName>imu_link</bodyName>
-        <updateRateHZ>10.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link</frameName>
-        <initialOrientationAsReference>false</initialOrientationAsReference>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
   </gazebo>
 
   <gazebo>

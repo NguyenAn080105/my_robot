@@ -117,7 +117,7 @@ def main():
     # --- SAVE DATA ---
     df = pd.DataFrame(data_log)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    df.to_csv(f"ros_benchmark_full_{timestamp}.csv", index=False)
+    df.to_csv(f"ros_benchmark_nav_{timestamp}.csv", index=False)
 
     # --- SMOOTHING ---
     window_size = 4
@@ -184,8 +184,8 @@ def main():
     ax2.grid(True, alpha=0.3, which='both')
     plt.subplots_adjust(left=0.06, right=0.95, top=0.95, bottom=0.12, hspace=0.25)
     
-    plt.savefig(f"benchmark_full_{timestamp}.png")
-    print(f"\nDone! Chart saved at: benchmark_full_{timestamp}.png")
+    plt.savefig(f"benchmark_nav_{timestamp}.png")
+    print(f"\n[Done] Chart saved at: benchmark_full_{timestamp}.png")
     plt.show()
 
 if __name__ == "__main__":

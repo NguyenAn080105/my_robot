@@ -2,10 +2,10 @@
 shutdown_costmaps: false
 controller_frequency: 5.0
 controller_patience: 5.0
-conservative_reset_dist: 3.0
-planner_frequency: 0.0 # Chỉ lập plan mới khi nhận được goal mới hoặc khi local planner báo tắc đường.
+conservative_reset_dist: 1.5
+planner_frequency: 1.0
 planner_patience: 5.0
-oscillation_timeout: 10.0 # Nếu trong 10 giây mà robot không di chuyển xa hơn được 0.2 mét
+oscillation_timeout: 5.0 # Nếu trong 10 giây mà robot không di chuyển xa hơn được 0.2 mét
 oscillation_distance: 0.2 # (tức là nó cứ tiến-lùi tại chỗ), hệ thống sẽ coi là robot bị kẹt và kích hoạt recovery.
 
 #base_global_planner: "global_planner/GlobalPlanner"
@@ -31,41 +31,43 @@ base_local_planner: "dwa_local_planner/DWAPlannerROS"
 # --- Global Planner (Dijkstra) ---
 NavfnROS:
   allow_unknown: true
-  default_tolerance: 0.0
-  visualize_potential: false # Bật lên nếu muốn xem heatmap trên Rviz
+  default_tolerance: 0.1
+  visualize_potential: false
 
 # --- Local Planner (DWA) ---
 DWAPlannerROS:
   # Vận tốc & Gia tốc
-  max_vel_x: 1
-  min_vel_x: 0.0
-  max_vel_y: 0
-  min_vel_y: 0
+  max_vel_x: 0.5
+  min_vel_x: 0.02
+  max_vel_y: 0.0
+  min_vel_y: 0.0
+
+  max_vel_trans: 0.5        # Tổng vận tốc tịnh tiến tối đa
+  min_vel_trans: 0.1
 
   max_vel_theta: 1.5
-  min_vel_theta: -1.5
+  min_vel_theta: 0.4
   min_in_place_vel_theta: 0.3
   
-  acc_lim_x: 0.5
-  acc_lim_theta: 1.0
+  acc_lim_x: 1.5
+  acc_lim_theta: 2.0
   acc_lim_y: 0.0
 
   # Goal
-  xy_goal_tolerance: 0.1 # Khi robot cách đích trong vòng 15cm, nó coi như đã đến nơi.
+  xy_goal_tolerance: 0.1 # Khi robot cách đích trong vòng 10cm, nó coi như đã đến nơi.
   yaw_goal_tolerance: 0.1
   latch_xy_goal_tolerance: false
-  # Nếu true, khi robot lọt vào vùng 15cm, nó sẽ không quan tâm đến vị trí nữa mà chỉ xoay cho đúng hướng. Nếu false, trong lúc xoay mà bị trôi ra khỏi vòng goal, nó sẽ cố chỉnh lại vị trí.
 
   # Simulation
-  sim_time: 1.0
-  vx_samples: 15
+  sim_time: 1.5
+  vx_samples: 20
   vy_samples: 0
   vth_samples: 25
   
   # Bám đường
-  path_distance_bias: 20.0
+  path_distance_bias: 32.0
   goal_distance_bias: 24.0
-  occdist_scale: 0.05
+  occdist_scale: 0.02
   forward_point_distance: 0.3
   
   stop_time_buffer: 0.2
@@ -73,3 +75,4 @@ DWAPlannerROS:
   max_scaling_factor: 0.2
   use_dijkstra: true
   oscillation_reset_dist: 0.05
+  oscillation_reset_angle: 0.2

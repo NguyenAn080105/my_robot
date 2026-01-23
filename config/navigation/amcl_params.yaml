@@ -1,0 +1,33 @@
+odom_model_type: "diff-corrected"
+
+# Độ nhiễu của odometry (càng cao robot càng ít tin vào odometry)
+odom_alpha1: 0.05
+odom_alpha2: 0.05
+odom_alpha3: 0.10
+odom_alpha4: 0.05
+
+# Hệ tọa độ
+odom_frame_id: "odom"
+base_frame_id: "base_footprint"
+global_frame_id: "map"
+
+max_particles: 1000
+min_particles: 500
+
+# Khi nào thì cập nhật vị trí (robot đi được 0.2m hoặc xoay 0.2 rad mới update 1 lần)
+update_min_a: 0.2
+update_min_d: 0.2
+
+# Các tham số phục hồi khi robot bị lạc
+recovery_alpha_slow: 0.001
+recovery_alpha_fast: 0.1
+
+# Khác
+use_map_topic: true
+transform_tolerance: 1.0
+gui_publish_rate: 10.0 # Tốc độ gửi visualize lên Rviz
+laser_max_beams: 30    # Chỉ dùng 30 tia laser để tính toán vị trí (nhẹ hơn cho CPU)
+z_hit: 0.95
+z_short: 0.1
+z_max: 0.05
+z_rand: 0.05

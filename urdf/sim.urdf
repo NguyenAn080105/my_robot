@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="my_robot">
+
   <!-- Laser (LiDAR) -->
   <joint name="laser_joint" type="fixed">
     <parent link="chassis"/>
@@ -27,6 +28,7 @@
   </link>
 
   <gazebo reference="laser_frame">
+    <material>Gazebo/Black</material>
     <sensor name="lidar" type="ray">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
@@ -34,14 +36,14 @@
       <ray>
         <scan>
           <horizontal>
-            <samples>360</samples>
+            <samples>720</samples>
             <min_angle>-3.14159</min_angle>
             <max_angle>3.14159</max_angle>
           </horizontal>
         </scan>
         <range>
-          <min>0.15</min>
-          <max>20</max>
+          <min>0.2</min>
+          <max>12</max>
         </range>
       </ray>
       <plugin filename="libgazebo_ros_laser.so" name="gazebo_ros_laser">
@@ -50,6 +52,143 @@
       </plugin>
     </sensor>
   </gazebo>
+
+  <!-- IMU -->
+  <link name="imu_link">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.01"/>
+      </geometry>
+    </visual>
+    <material name="blue">
+      <color rgba="0 0 1 1.0"/>
+    </material>
+    <collision>
+      <geometry>
+        <box size="0.02 0.02 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+    </inertial>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="imu_link">
+   <material>Gazebo/Blue</material>
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- CAMERA -->
+  <link name="camera_link">
+    <visual name="camera_body_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.024 0.094 0.029"/>
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.2 0.2 0.2 1.0"/>
+      </material>
+    </visual>
+    
+    <visual name="camera_lens_visual">
+      <origin xyz="0.015 0 0" rpy="0 1.570796 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.005"/>
+      </geometry>
+      <material name="black_lens">
+        <color rgba="0.05 0.05 0.05 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0.005 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.035 0.096 0.031"/>
+      </geometry>
+    </collision>
+
+    <!--inertial>
+      <mass value="0.05"/> <inertia ixx="0.00004" ixy="0" ixz="0" iyy="0.000006" iyz="0" izz="0.00004"/>
+    </inertial-->
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="camera_link"/>
+    <origin xyz="0.1045 0 0.1055" rpy="0 0 0"/>
+  </joint>
+
+  <link name="camera_optical_link"/>
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+  </joint>
+
+  <gazebo reference="camera_link">
+    <material>Gazebo/DarkGrey</material>
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+
+      <pose>0.03 0 0 0 0 0</pose> 
+
+      <camera name="head">
+      <horizontal_fov>1.5707</horizontal_fov> 
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>my_robot/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_optical_link</frameName> <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
   <!--height_box = height_total(27) - wheel_radius - LiDAR-->
   <!-- Base link -->
   <link name="base_link">
@@ -60,6 +199,7 @@
     <child link="base_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.152"/>
   </joint>
+
   <!-- CHASSIS -->
   <joint name="chassis_joint" type="fixed">
     <parent link="base_link"/>
@@ -72,9 +212,6 @@
       <geometry>
         <box size="0.185 0.166 0.24"/>
       </geometry>
-      <material name="grey">
-        <color rgba="0.5725490196078431 0.5843137254901961 0.5686274509803921 1.0"/>
-      </material>
     </visual>
     <collision>
       <origin xyz="0 0 0"/>
@@ -151,7 +288,6 @@
     </inertial>
   </link>
 
-
   <link name="right_rear_wheel">
     <visual>
       <geometry>
@@ -171,7 +307,6 @@
       <inertia ixx="1.0782916666666668e-05" ixy="0" ixz="0" iyy="1.792e-05" iyz="0" izz="1.0782916666666668e-05"/>
     </inertial>
   </link>
-
   <!-- WHEEL JOINTS -->
   <joint name="left_front_wheel_joint" type="continuous">
     <parent link="base_link"/>
@@ -197,7 +332,7 @@
     <origin rpy="1.5707963267948966 0 0" xyz="-0.0925 -0.0955 -0.12"/>
     <axis xyz="0 0 -1"/>
   </joint>
-  
+
   <!-- GAZEBO -->
   <gazebo reference="laser_frame">
     <material>Gazebo/Black</material>
@@ -210,80 +345,72 @@
   <gazebo reference="right_front_wheel">
     <material>Gazebo/Black</material>
     <mu1>1.0</mu1>
-    <mu2>1.0</mu2>
-    <kp>1000000.0</kp>
+    <mu2>0.01</mu2>
+    <kp>10000000.0</kp> 
     <kd>1.0</kd>
+    <minDepth>0.005</minDepth>
+    <fdir1>1 0 0</fdir1>
   </gazebo>
 
   <gazebo reference="left_front_wheel">
     <material>Gazebo/Black</material>
     <mu1>1.0</mu1>
-    <mu2>1.0</mu2>
-    <kp>1000000.0</kp>
+    <mu2>0.01</mu2>
+    <kp>10000000.0</kp> 
     <kd>1.0</kd>
+    <minDepth>0.005</minDepth>
+    <fdir1>1 0 0</fdir1>
   </gazebo>
 
   <gazebo reference="left_rear_wheel">
     <material>Gazebo/Black</material>
-    <mu1>1.0</mu1>
-    <mu2>1.0</mu2>
-    <kp>1000000.0</kp>
+    <mu1>50.0</mu1> 
+    <mu2>50.0</mu2> 
+    <kp>10000000.0</kp> 
     <kd>1.0</kd>
+    <minDepth>0.005</minDepth>
+    <fdir1>1 0 0</fdir1>
   </gazebo>
   
   <gazebo reference="right_rear_wheel">
     <material>Gazebo/Black</material>
-    <mu1>1.0</mu1>
-    <mu2>1.0</mu2>
-    <kp>1000000.0</kp>
+    <mu1>50.0</mu1> 
+    <mu2>50.0</mu2> 
+    <kp>10000000.0</kp> 
     <kd>1.0</kd>
+    <minDepth>0.005</minDepth>
+    <fdir1>1 0 0</fdir1> 
   </gazebo>
 
   <gazebo>
-    <!-- GAZEBO ROS CONTROL -->
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <robotNamespace>/</robotNamespace>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="diff_drive">
+      <updateRate>50</updateRate>
+      <leftJoint>left_rear_wheel_joint</leftJoint>
+      <rightJoint>right_rear_wheel_joint</rightJoint>
+      <wheelSeparation>0.191</wheelSeparation>
+      <wheelDiameter>0.064</wheelDiameter>
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom/wheel</odometryTopic> 
+      
+      <publishOdomTF>false</publishOdomTF> 
+      <publishWheelTF>false</publishWheelTF>
+
+      <odometrySource>encoder</odometrySource> 
+      <publishOdom>true</publishOdom>
+      <publishWheelJointState>false</publishWheelJointState>
+      <wheelTorque>5</wheelTorque>
+      <rosDebugLevel>na</rosDebugLevel>
+      <publishTf>true</publishTf>
+      <tf_prefix></tf_prefix>
+    </plugin>
+
+    <plugin filename="libgazebo_ros_joint_state_publisher.so" name="joint_state_publisher">
+      <updateRate>50</updateRate>
+      <jointName>left_front_wheel_joint,right_front_wheel_joint,left_rear_wheel_joint,right_rear_wheel_joint</jointName>
     </plugin>
   </gazebo>
-
-  <!-- TRANSMISSION (ROS Control) >
-  <transmission name="left_front_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="left_front_wheel_joint">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="left_front_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="right_front_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="right_front_wheel_joint">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="right_front_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission-->
-
-  <transmission name="left_rear_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="left_rear_wheel_joint">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="left_rear_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="right_rear_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="right_rear_wheel_joint">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="right_rear_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 </robot>

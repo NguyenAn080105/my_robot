@@ -1432,46 +1432,6 @@
         <interpolate_x>true</interpolate_x>
       </animation>
       
-      <link name="legs_collision">
-        <collision name="left_leg">
-          <pose>0 0.15 -0.6 0 0 0</pose> 
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.6</size> 
-            </box>
-          </geometry>
-        </collision>
-
-        <visual name="left_leg_visual">
-          <pose>0 0.15 -0.6 0 0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.6</size>
-            </box>
-          </geometry>
-          <material><script><name>Gazebo/Red</name></script></material>
-        </visual>
-
-        <collision name="right_leg">
-          <pose>0 -0.15 -0.6 0 0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.6</size>
-            </box>
-          </geometry>
-        </collision>
-
-        <visual name="right_leg_visual">
-          <pose>0 -0.15 -0.6 0 0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.6</size>
-            </box>
-          </geometry>
-          <material><script><name>Gazebo/Red</name></script></material>
-        </visual>
-      </link>
-
       <script>
         <loop>true</loop>
         <delay_start>0.000000</delay_start>

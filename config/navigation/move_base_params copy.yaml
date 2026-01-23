@@ -2,10 +2,10 @@
 shutdown_costmaps: false
 controller_frequency: 10.0
 controller_patience: 5.0
-conservative_reset_dist: 3.0
+conservative_reset_dist: 3.0 #distance from an obstacle at which it will unstuck itself
 planner_frequency: 0.0 # Chỉ lập plan mới khi nhận được goal mới hoặc khi local planner báo tắc đường.
 planner_patience: 5.0
-oscillation_timeout: 10.0 # Nếu trong 10 giây mà robot không di chuyển xa hơn được 0.2 mét
+oscillation_timeout: 10.0
 oscillation_distance: 0.2 # (tức là nó cứ tiến-lùi tại chỗ), hệ thống sẽ coi là robot bị kẹt và kích hoạt recovery.
 
 #base_global_planner: "global_planner/GlobalPlanner"
